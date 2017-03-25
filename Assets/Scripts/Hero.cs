@@ -22,8 +22,10 @@ public class Hero : MonoBehaviour {
     public float manaAcum = 10;
 
     public bool fury = false;
-    public float furyRate = 1/30;
+    public float furyRate = 30;
     public float furyChance = 0.2f;
+
+    public float stun = 0;
 
     public GameObject villain;
 
@@ -45,25 +47,35 @@ public class Hero : MonoBehaviour {
     /// </summary>
     void Update () {
         
-            if (!gameSceneManager.gameover)
-            {
+        if (!gameSceneManager.gameover)
+        {
 
-                if (health <= 0) {
-                    anim.SetTrigger("death");
+            if (health <= 0) {
+                anim.SetTrigger("death");
+            } else {
+
+                if (stun>0) {
+                    // Stuneado
+                    stun = Mathf.Max(stun - Time.deltaTime, 0);
+
                 } else {
+                    // Si no estamos stuneados
 
-
-                    if (timeToFury > furyRate) {
-                        Fury();
-                        if (!fury) {
-                            timeToFury -= 1;
-                            Debug.Log("Tiempo alargado");
+                    // Sólo ocurre si el nivel es 3 o mas
+                    if (GameManager.Instance.Level >= 3) {
+                        if (timeToFury > furyRate) {
+                            Fury();
+                            if (!fury) {
+                                timeToFury -= 1;
+                                Debug.Log("Tiempo alargado");
+                            } else {
+                                gameSceneManager.furies++;
+                                timeToFury = 0;
+                            }
+                            Debug.Log("FURY: " + fury.ToString());
                         } else {
-                            timeToFury = 0;
+                            timeToFury += Time.deltaTime;
                         }
-                        Debug.Log("FURY: " + fury.ToString());
-                    } else {
-                        timeToFury += Time.deltaTime;
                     }
 
                     if (timeToAttack > attackRate) {
@@ -79,7 +91,11 @@ public class Hero : MonoBehaviour {
                     }
 
                 }
-            }            
+
+                
+
+            }
+        }            
             
     }
     void Attack(Tuple<int, GameObject> objective)

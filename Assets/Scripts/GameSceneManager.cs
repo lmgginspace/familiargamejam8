@@ -21,12 +21,13 @@ public class GameSceneManager : MonoBehaviour {
     public GameObject minion_middle;
     public GameObject minion_down;
 
-
+    public int furies;
 
 	#region Unity Functions
 
 	void Start () {
         gameover = false;
+        furies = 0;
 	}
 	
 	void Update () {

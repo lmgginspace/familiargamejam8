@@ -20,7 +20,7 @@ public sealed class GameManager : Singleton<GameManager>
     // Variables volátiles (se conservan entre cambios de escena, pero no son persistentes)
     private int currentPoints = 0;
 
-    public int level = 1;
+    private int level = 1;
 
     // ---- ---- ---- ---- ---- ---- ---- ----
     // Propiedades

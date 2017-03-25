@@ -102,17 +102,28 @@ public class Hero : MonoBehaviour {
     }
     void Attack(Tuple<int, GameObject> objective)
     {
-        if (objective.Item2.tag == "Villain")
-        {
-            Debug.Log(objective.Item2);
-            objective.Item2.GetComponent<Villain>().health -= attack; //TODO
+        StartCoroutine(DelayandAttack(attackRate / 4, objective.Item1, objective.Item2));
+        
+        
+    }
+
+    IEnumerator DelayandAttack(float seconds, int index, GameObject objective) {
+        
+        bool flipX = GetComponent<SpriteRenderer>().flipX;
+        bool cond_changeFlip = index == 0;
+        if (flipX != cond_changeFlip) {
+            // No coinciden las orientaciones. Debe girar: tiempo de espera
+            GetComponent<SpriteRenderer>().flipX = cond_changeFlip;
+            yield return new WaitForSeconds(seconds);
         }
-        else if (objective.Item2.tag == "Minion")
-        {
-            //TODO objective.Item2.GetComponent<Minion>().health -= attack; 
+        if (index == 0) {
+            objective.GetComponent<Villain>().health -= attack;
+            mana = Mathf.Min(mana + manaAcum, manaMax);
+        } else {
+            //TODO objective.GetComponent<Minion>().health -= attack; 
         }
-        mana = Mathf.Min(mana + manaAcum, manaMax);
         anim.SetTrigger("attack");
+        
     }
 
     void Fury() {

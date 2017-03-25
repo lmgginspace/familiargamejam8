@@ -12,7 +12,8 @@ public class Hero : MonoBehaviour {
 
     #region Variables
     #endregion
-    public float health = 10000;
+    public float healthMax = 10000;
+    public float health;
     public float attack = 20;
     public float attackRate = 1;
 
@@ -38,6 +39,7 @@ public class Hero : MonoBehaviour {
 	#region Unity Functions
 
 	void Start () {
+        health = healthMax;
         anim = GetComponent<Animator>();
         gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
 	}

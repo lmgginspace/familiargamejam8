@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4579768239748152}
   - component: {fileID: 212950930351519648}
   - component: {fileID: 95182873143157338}
+  - component: {fileID: 114438237717071416}
   m_Layer: 0
   m_Name: Minion
   m_TagString: Untagged
@@ -58,6 +59,28 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114438237717071416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1604565741682404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c057711834de3db41b0fe30fc857361b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atackable: 0
+  health: 0
+  kindMinionValue: 0
+  kindDisrepairValue: 0
+  disrepairTop: 1.86
+  disrepairMid: 1.92
+  disrepairBot: 1.59
+  throwDisrepairObject: {fileID: 0}
+  SpawnDisrepairObject: {fileID: 0}
+  position: 
+  heroSht: {fileID: 0}
 --- !u!212 &212950930351519648
 SpriteRenderer:
   m_ObjectHideFlags: 1

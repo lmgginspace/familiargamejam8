@@ -58,7 +58,7 @@ public class Minion : MonoBehaviour {
     void Start()
     {
 
-        heroSht = GameObject.FindGameObjectWithTag("Hero").gameObject;
+       heroSht = GameObject.FindGameObjectWithTag("Hero").gameObject;
 
         switch (position)
         {

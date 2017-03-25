@@ -57,6 +57,8 @@ public sealed class GameManager : Singleton<GameManager>
         }
     }
 
+
+
     // Variables volátiles
     public int CurrentPoints
     {

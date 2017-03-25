@@ -105,6 +105,15 @@ public sealed class GameManager : Singleton<GameManager>
 
     // Métodos de juego
 
+    public void LoadScene (string scene) {
+        if (scene.Equals("reset")) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        } else {
+            SceneManager.LoadScene(scene);
+        }
+        
+    }
+
     // Métodos de gestión de la salida
     public void ExitApplication()
     {

@@ -14,8 +14,6 @@ public class Villain : MonoBehaviour {
     public float attack = 10;
     public float attackRate = 1;
 
-
-
     public GameObject hero;
 
     
@@ -31,21 +29,28 @@ public class Villain : MonoBehaviour {
         anim = GetComponent<Animator>();
         gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
     }
-	
-	void Update () {
-        if (health <= 0)
-        {
-            anim.SetTrigger("death");
-        } else
-        {
-            if (Time.time > timeToAttack && !gameSceneManager.gameover)
-            {
-                timeToAttack = Time.time + 1 / attackRate;
-                Attack(MyObjective());
+
+    void Update() {
+
+
+        if (!gameSceneManager.gameover) {
+
+            if (health <= 0) {
+                anim.SetTrigger("death");
+            } else {
+
+                if (timeToAttack > attackRate) {
+                    timeToAttack = 0;
+                    Attack(MyObjective());
+                } else {
+                    timeToAttack += Time.deltaTime;
+                }
+
             }
+
         }
-       
     }
+
 
     void Attack(GameObject objective)
     {

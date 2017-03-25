@@ -27,6 +27,7 @@ public class Hero : MonoBehaviour {
     public float furyChance = 0.2f;
 
     public float blockingRate = 20;
+    public float blockingTime = 10;
 
     public float stun = 0;
 
@@ -67,16 +68,17 @@ public class Hero : MonoBehaviour {
                 } else {
                     // Si no estamos stuneados
 
+
                     if (timeToBlocking > blockingRate) {
                         Blocks();
                         timeToBlocking = 0;
                     } else {
                         timeToBlocking += Time.deltaTime;
-                    }
-                    
-                    // Sólo ocurre si el nivel es 3 o mas
-                    if (GameManager.Instance.Level >= 3) {
-                        if (timeToFury > furyRate) {
+
+                        // no bloquea
+
+                        // Sólo ocurre si el nivel es 3 o mas
+                        if (GameManager.Instance.Level >= 3 && timeToFury > furyRate) {
                             Fury();
                             if (!fury) {
                                 timeToFury -= 1;
@@ -88,24 +90,25 @@ public class Hero : MonoBehaviour {
                             Debug.Log("FURY: " + fury.ToString());
                         } else {
                             timeToFury += Time.deltaTime;
-                        }
-                    }
+                            // no furia
 
-                    if (timeToAttack > attackRate) {
-                        timeToAttack = 0;
-                        if (mana >= manaMax) {
-                            MagicAttack(gameSceneManager.ChooseObjective(GameSceneManager.MAGIC_ATTACK));
-                            mana = 0;
-                        } else {
-                            Attack(gameSceneManager.ChooseObjective(GameSceneManager.NORMAL_ATTACK));
-                        }
-                    } else {
-                        timeToAttack += Time.deltaTime;
-                    }
+                            if (timeToAttack > attackRate) {
+                                timeToAttack = 0;
+                                if (mana >= manaMax) {
+                                    MagicAttack(gameSceneManager.ChooseObjective(GameSceneManager.MAGIC_ATTACK));
+                                    mana = 0;
+                                } else {
+                                    Attack(gameSceneManager.ChooseObjective(GameSceneManager.NORMAL_ATTACK));
+                                }
+                            } else {
+                                timeToAttack += Time.deltaTime;
+                            }
 
+                        }
+
+                    }
+                    
                 }
-
-                
 
             }
         }            
@@ -151,7 +154,7 @@ public class Hero : MonoBehaviour {
     void Blocks() {
         anim.SetTrigger("blocks");
         int index = gameSceneManager.RandomAvailableLane();
-        gameSceneManager.close
+        gameSceneManager.closeLane(index, blockingTime);
     }
 
     void MagicAttack(Tuple<int, GameObject> objective)

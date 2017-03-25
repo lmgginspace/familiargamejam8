@@ -43,6 +43,36 @@ public class GameSceneManager : MonoBehaviour {
             {
                 gameover = true;
                 Debug.Log("GAME OVER");
+            } else {
+
+                // Times Blocks
+                if (time_to_open_up > 0) {
+                    time_to_open_up -= Time.deltaTime;
+                } else {
+                    if (time_to_open_up < 0) {
+                        time_to_open_up = 0;
+                        // abre lane
+                    }
+                    
+                }
+                if (time_to_open_middle > 0) {
+                    time_to_open_middle -= Time.deltaTime;
+                } else {
+                    if (time_to_open_middle < 0) {
+                        time_to_open_middle = 0;
+                        // abre lane
+                    }
+
+                }
+                if (time_to_open_down > 0) {
+                    time_to_open_down -= Time.deltaTime;
+                } else {
+                    if (time_to_open_down < 0) {
+                        time_to_open_down = 0;
+                        // abre lane
+                    }
+
+                }
             }
         }
 	}

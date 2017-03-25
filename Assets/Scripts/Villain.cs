@@ -10,13 +10,13 @@ public class Villain : MonoBehaviour {
 
     #region Variables
     #endregion
-    public float health = 1000;
+    public float healthMax = 1000;
+    public float health;
     public float attack = 10;
     public float attackRate = 1;
 
     public GameObject hero;
 
-    
     private float timeToAttack = 0;
 
     private Animator anim;
@@ -26,6 +26,7 @@ public class Villain : MonoBehaviour {
     #region Unity Functions
 
     void Start () {
+        health = healthMax;
         anim = GetComponent<Animator>();
         gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
     }

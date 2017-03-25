@@ -20,6 +20,8 @@ public sealed class GameManager : Singleton<GameManager>
     // Variables volátiles (se conservan entre cambios de escena, pero no son persistentes)
     private int currentPoints = 0;
 
+    private int level = 1;
+
     // ---- ---- ---- ---- ---- ---- ---- ----
     // Propiedades
     // ---- ---- ---- ---- ---- ---- ---- ----
@@ -43,6 +45,15 @@ public sealed class GameManager : Singleton<GameManager>
             if (GameManager.Instance.gamePersistentData == null)
                 GameManager.Instance.gamePersistentData = new GamePersistentData();
             return GameManager.Instance.gamePersistentData;
+        }
+    }
+
+    //Nivel actual de juego
+    public int Level 
+    {
+        get { return level; }
+        set {
+            level = value;
         }
     }
 

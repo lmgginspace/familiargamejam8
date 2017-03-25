@@ -12,7 +12,8 @@ public class Hero : MonoBehaviour {
 
     #region Variables
     #endregion
-    public float health = 10000;
+    public float healthMax = 10000;
+    public float health;
     public float attack = 20;
     public float attackRate = 1;
 
@@ -22,8 +23,10 @@ public class Hero : MonoBehaviour {
     public float manaAcum = 10;
 
     public bool fury = false;
-    public float furyRate = 1/30;
+    public float furyRate = 30;
     public float furyChance = 0.2f;
+
+    public float stun = 0;
 
     public GameObject villain;
 
@@ -36,6 +39,7 @@ public class Hero : MonoBehaviour {
 	#region Unity Functions
 
 	void Start () {
+        health = healthMax;
         anim = GetComponent<Animator>();
         gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
 	}
@@ -45,25 +49,35 @@ public class Hero : MonoBehaviour {
     /// </summary>
     void Update () {
         
-            if (!gameSceneManager.gameover)
-            {
+        if (!gameSceneManager.gameover)
+        {
 
-                if (health <= 0) {
-                    anim.SetTrigger("death");
+            if (health <= 0) {
+                anim.SetTrigger("death");
+            } else {
+
+                if (stun>0) {
+                    // Stuneado
+                    stun = Mathf.Max(stun - Time.deltaTime, 0);
+
                 } else {
+                    // Si no estamos stuneados
 
-
-                    if (timeToFury > furyRate) {
-                        Fury();
-                        if (!fury) {
-                            timeToFury -= 1;
-                            Debug.Log("Tiempo alargado");
+                    // Sólo ocurre si el nivel es 3 o mas
+                    if (GameManager.Instance.Level >= 3) {
+                        if (timeToFury > furyRate) {
+                            Fury();
+                            if (!fury) {
+                                timeToFury -= 1;
+                                Debug.Log("Tiempo alargado");
+                            } else {
+                                gameSceneManager.furies++;
+                                timeToFury = 0;
+                            }
+                            Debug.Log("FURY: " + fury.ToString());
                         } else {
-                            timeToFury = 0;
+                            timeToFury += Time.deltaTime;
                         }
-                        Debug.Log("FURY: " + fury.ToString());
-                    } else {
-                        timeToFury += Time.deltaTime;
                     }
 
                     if (timeToAttack > attackRate) {
@@ -79,27 +93,43 @@ public class Hero : MonoBehaviour {
                     }
 
                 }
-            }            
+
+                
+
+            }
+        }            
             
     }
     void Attack(Tuple<int, GameObject> objective)
     {
-        if (objective.Item2.tag == "Villain")
-        {
-            Debug.Log(objective.Item2);
-            objective.Item2.GetComponent<Villain>().health -= attack; //TODO
+        StartCoroutine(DelayandAttack(attackRate / 4, objective.Item1, objective.Item2));
+        
+        
+    }
+
+    IEnumerator DelayandAttack(float seconds, int index, GameObject objective) {
+        
+        bool flipX = GetComponent<SpriteRenderer>().flipX;
+        bool cond_changeFlip = index == 0;
+        if (flipX != cond_changeFlip) {
+            // No coinciden las orientaciones. Debe girar: tiempo de espera
+            GetComponent<SpriteRenderer>().flipX = cond_changeFlip;
+            yield return new WaitForSeconds(seconds);
         }
-        else if (objective.Item2.tag == "Minion")
-        {
-            //TODO objective.Item2.GetComponent<Minion>().health -= attack; 
+        if (index == 0) {
+            objective.GetComponent<Villain>().health -= attack;
+            mana = Mathf.Min(mana + manaAcum, manaMax);
+        } else {
+            //TODO objective.GetComponent<Minion>().health -= attack; 
         }
-        mana = Mathf.Min(mana + manaAcum, manaMax);
         anim.SetTrigger("attack");
+        
     }
 
     void Fury() {
         if (fury) {
             fury = false;
+            timeToFury = 0;
         } else {
             fury = RandomUtil.Chance(furyChance);
         }

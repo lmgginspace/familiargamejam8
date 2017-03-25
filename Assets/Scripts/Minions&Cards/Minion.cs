@@ -98,6 +98,7 @@ public class Minion : MonoBehaviour {
 
     public void disrepairHero(float disrepairH, KindDisrepair kDisrepair)
     {
+<<<<<<< HEAD
         switch (kDisrepair)
         {
             case KindDisrepair.DPS:
@@ -114,6 +115,9 @@ public class Minion : MonoBehaviour {
                 break;
         }
        
+=======
+        //heroSht
+>>>>>>> 103eead80576a077250ef5a40a2bc6f9a4cd858a
     }
 
 }

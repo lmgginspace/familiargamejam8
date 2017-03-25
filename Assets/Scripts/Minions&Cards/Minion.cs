@@ -49,7 +49,7 @@ public class Minion : MonoBehaviour {
 
     public void dispairHero(float dispairH, string kDispair)
     {
-        heroSht
+        //heroSht
     }
 
 }

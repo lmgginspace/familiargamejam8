@@ -116,6 +116,7 @@ public class Hero : MonoBehaviour {
     void Fury() {
         if (fury) {
             fury = false;
+            timeToFury = 0;
         } else {
             fury = RandomUtil.Chance(furyChance);
         }

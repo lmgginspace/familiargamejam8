@@ -4,8 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Villian
   - Hero
+  - Minion
+  - Villain
+  - Top
+  - Mid
+  - Bot
   layers:
   - Default
   - TransparentFX

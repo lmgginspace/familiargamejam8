@@ -48,6 +48,8 @@ public class Minion : MonoBehaviour {
 
     public Transform SpawnDisrepairObject;
 
+    private GameSceneManager gameSceneManager;
+
     [HideInInspector]
     public string position;
 
@@ -57,19 +59,22 @@ public class Minion : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
-       heroSht = GameObject.FindGameObjectWithTag("Hero").gameObject;
+        gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
+        heroSht = GameObject.FindGameObjectWithTag("Hero").gameObject;
 
         switch (position)
         {
             case "top":
                 disrepairValue = disrepairTop;
+                gameSceneManager.minion_up = gameObject;
                 break;
             case "mid":
                 disrepairValue = disrepairMid;
+                gameSceneManager.minion_middle = gameObject;
                 break;
             case "bot":
                 disrepairValue = disrepairBot;
+                gameSceneManager.minion_down = gameObject;
                 break;
         }
 
@@ -157,6 +162,15 @@ public class Minion : MonoBehaviour {
 
     public void die()
     {
+        if (position=="top") {
+            gameSceneManager.minion_up = null;
+        }
+        if (position == "mid") {
+            gameSceneManager.minion_middle = null;
+        }
+        if (position == "bot") {
+            gameSceneManager.minion_down = null;
+        }
         replaceStatHero(disrepairValue,kindDisrepairValue);
         Destroy(this.gameObject);
     }

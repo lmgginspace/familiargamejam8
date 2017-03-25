@@ -124,7 +124,7 @@ public class Hero : MonoBehaviour {
     IEnumerator DelayandAttack(float seconds, int index, GameObject objective) {
         
         bool flipX = transform.GetChild(0).GetComponent<SpriteRenderer>().flipX;
-        bool cond_changeFlip = index == 0;
+        bool cond_changeFlip = index > 0;
         if (flipX != cond_changeFlip) {
             // No coinciden las orientaciones. Debe girar: tiempo de espera
             foreach (Transform child in transform) {
@@ -136,7 +136,7 @@ public class Hero : MonoBehaviour {
             objective.GetComponent<Villain>().health -= attack;
             mana = Mathf.Min(mana + manaAcum, manaMax);
         } else {
-            //TODO objective.GetComponent<Minion>().health -= attack; 
+            objective.GetComponent<Minion>().health -= attack;
         }
         anim.SetTrigger("attack");
         
@@ -159,7 +159,7 @@ public class Hero : MonoBehaviour {
 
     void MagicAttack(Tuple<int, GameObject> objective)
     {
-        objective.Item2.GetComponent<Villain>().health -= magicAttack; //TODO
+        objective.Item2.GetComponent<Villain>().health -= magicAttack;
         anim.SetTrigger("magic" + objective.Item1);
     }
 

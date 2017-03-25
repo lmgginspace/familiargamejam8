@@ -10,10 +10,17 @@ public class Minion : MonoBehaviour {
 
     public float health;
 
+    public float fireRate;
+
+    private float timeToFire;
+
+    #region enumValues
     public KindMinion kindMinionValue;
 
     public KindDisrepair kindDisrepairValue;
+    #endregion
 
+    #region enumTypes
     [HideInInspector]
     public enum KindMinion{
         Decoy,
@@ -29,12 +36,17 @@ public class Minion : MonoBehaviour {
         Damage,
         Stun
     }
+    #endregion
 
+    #region disrepairValues
     public float disrepairTop;
 
     public float disrepairMid;
 
     public float disrepairBot;
+
+    private float disrepairValue;
+    #endregion
 
     public GameObject throwDisrepairObject;
 
@@ -51,26 +63,43 @@ public class Minion : MonoBehaviour {
 
         heroSht = GameObject.FindGameObjectWithTag("Hero").gameObject;
 
-        if (kindMinionValue == KindMinion.Decoy)
+        switch (position)
         {
-
-        }else
-        {
-
+            case "top":
+                disrepairValue = disrepairTop;
+                break;
+            case "mid":
+                disrepairValue = disrepairMid;
+                break;
+            case "bot":
+                disrepairValue = disrepairBot;
+                break;
         }
 
+        if (kindMinionValue != KindMinion.Decoy)
+        {
+          
+        }
 
     }
 	
 	// Update is called once per frame
 	void Update () {
-       
+
+
+        if (kindMinionValue != KindMinion.Decoy)
         {
             if (KindDisrepair.Stun==kindDisrepairValue)
             {
-               
+              disrepairHero(disrepairValue, kindDisrepairValue);
+               Destroy(this.gameObject);
             }else
             {
+                if (Time.time > timeToFire)
+                {
+                    disrepairHero(disrepairValue, kindDisrepairValue);
+                    timeToFire = Time.time + 1 / fireRate;
+                }
 
             }
         }
@@ -98,7 +127,6 @@ public class Minion : MonoBehaviour {
 
     public void disrepairHero(float disrepairH, KindDisrepair kDisrepair)
     {
-<<<<<<< HEAD
         switch (kDisrepair)
         {
             case KindDisrepair.DPS:
@@ -111,13 +139,9 @@ public class Minion : MonoBehaviour {
                 heroSht.GetComponent<Hero>().attack *= disrepairH;
                 break;
             case KindDisrepair.Stun:
-               // heroSht.GetComponent<Hero>().stun += disrepairH;
+                heroSht.GetComponent<Hero>().stun += disrepairH;
                 break;
         }
-       
-=======
-        //heroSht
->>>>>>> 103eead80576a077250ef5a40a2bc6f9a4cd858a
     }
 
 }

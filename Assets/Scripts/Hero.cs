@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Extensions.Tuple;
 
 public class Hero : MonoBehaviour {
 
@@ -13,6 +14,13 @@ public class Hero : MonoBehaviour {
     public float health = 300;
     public float attack = 20;
     public float attackRate = 1;
+
+    public float magicAttack = 100;
+    public float mana = 0;
+    public float manaMax = 100;
+    public float manaAcum = 10;
+
+    public bool fury = false;
 
     public GameObject villain;
 
@@ -38,19 +46,35 @@ public class Hero : MonoBehaviour {
             if (Time.time > timeToAttack && !gameSceneManager.gameover)
             {
                 timeToAttack = Time.time + 1 / attackRate;
-                Attack(MyObjective());
+                if (mana >= manaMax)
+                {
+                    MagicAttack(gameSceneManager.ChooseObjective(GameSceneManager.MAGIC_ATTACK));
+                } else
+                {
+                    Attack(gameSceneManager.ChooseObjective(GameSceneManager.NORMAL_ATTACK));
+                }
             }
         }
     }
-    void Attack(GameObject objective)
+    void Attack(Tuple<int, GameObject> objective)
     {
-        objective.GetComponent<Villain>().health -= 100;
-        anim.SetTrigger("attack");
+        
+        if (objective.Item2.tag == "Villain")
+        {
+            objective.Item2.GetComponent<Villain>().health -= attack; //TODO
+        }
+        else if (objective.Item2.tag == "Minion")
+        {
+            //TODO objective.Item2.GetComponent<Minion>().health -= attack; 
+        }
+        mana = Mathf.Min(mana + manaAcum, manaMax);
+        anim.SetTrigger("attack"+objective.Item1);
     }
 
-    GameObject MyObjective()
+    void MagicAttack(Tuple<int, GameObject> objective)
     {
-        return villain;
+        objective.Item2.GetComponent<Villain>().health -= magicAttack; //TODO
+        anim.SetTrigger("magic" + objective.Item1);
     }
 
     #endregion

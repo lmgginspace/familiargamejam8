@@ -6,30 +6,45 @@ public class Card : MonoBehaviour {
 
     public bool select;
 
+    [HideInInspector]
+    public bool usable = true;
+
     public GameObject minionS;
 
-    public float coldown;
+    public float cooldown;
 
-    public List<GameObject> positionList;
-    
+    private float timeCooldown;
+
     [HideInInspector]
     public string position;
 
 	// Use this for initialization
 	void Start () {
-		
+       timeCooldown = cooldown;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-       
+        if (!usable)
+        {
+            timeCooldown -= Time.deltaTime;
+            if(timeCooldown<=0.0f)
+            {
+                usable = true;
+                timeCooldown = cooldown;
+            }
+        }
 	}
 
     public void spawnMinion(GameObject spawnPoint,string pos)
     {
-        GameObject tempMinion;
-        tempMinion = Instantiate(minionS,spawnPoint.transform.position,spawnPoint.transform.rotation);
-
-        tempMinion.GetComponent<Minion>().position= pos;
+        if (usable)
+        {
+            GameObject tempMinion;
+            usable = false;
+            tempMinion = Instantiate(minionS, spawnPoint.transform.position, spawnPoint.transform.rotation);
+            tempMinion.GetComponent<Minion>().position = pos;
+        }
+        
     }
 }

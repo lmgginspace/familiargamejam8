@@ -10,10 +10,6 @@ public class Minion : MonoBehaviour {
 
     public float health;
 
-    public float fireRate;
-
-    private float timeToFire;
-
     #region enumValues
     public KindMinion kindMinionValue;
 
@@ -58,8 +54,9 @@ public class Minion : MonoBehaviour {
     [HideInInspector]
     public GameObject heroSht;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
 
         heroSht = GameObject.FindGameObjectWithTag("Hero").gameObject;
 
@@ -78,30 +75,25 @@ public class Minion : MonoBehaviour {
 
         if (kindMinionValue != KindMinion.Decoy)
         {
-          
-        }
+            if (KindDisrepair.Stun == kindDisrepairValue)
+            {
+                disrepairHero(disrepairValue, kindDisrepairValue);
+                Destroy(this.gameObject, 2f);
+            }
+            else
+            {
+                disrepairHero(disrepairValue, kindDisrepairValue);
+            }
 
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-
-        if (kindMinionValue != KindMinion.Decoy)
+        if (health<=0.0f)
         {
-            if (KindDisrepair.Stun==kindDisrepairValue)
-            {
-              disrepairHero(disrepairValue, kindDisrepairValue);
-               Destroy(this.gameObject);
-            }else
-            {
-                if (Time.time > timeToFire)
-                {
-                    disrepairHero(disrepairValue, kindDisrepairValue);
-                    timeToFire = Time.time + 1 / fireRate;
-                }
-
-            }
+            die();
         }
 
 	}
@@ -142,6 +134,31 @@ public class Minion : MonoBehaviour {
                 heroSht.GetComponent<Hero>().stun += disrepairH;
                 break;
         }
+    }
+
+    public void replaceStatHero(float disrepairH, KindDisrepair kDisrepair)
+    {
+        switch (kDisrepair)
+        {
+            case KindDisrepair.DPS:
+                heroSht.GetComponent<Hero>().attackRate /= disrepairH;
+                break;
+            case KindDisrepair.Mana:
+                heroSht.GetComponent<Hero>().mana /= disrepairH;
+                break;
+            case KindDisrepair.Damage:
+                heroSht.GetComponent<Hero>().attack /= disrepairH;
+                break;
+            case KindDisrepair.Stun:
+                heroSht.GetComponent<Hero>().stun -= disrepairH;
+                break;
+        }
+    }
+
+    public void die()
+    {
+        replaceStatHero(disrepairValue,kindDisrepairValue);
+        Destroy(this.gameObject);
     }
 
 }

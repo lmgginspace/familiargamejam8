@@ -149,8 +149,9 @@ public class Hero : MonoBehaviour {
     }
 
     void Blocks() {
-        int index = gameSceneManager.RandomAvailableLane();
         anim.SetTrigger("blocks");
+        int index = gameSceneManager.RandomAvailableLane();
+        gameSceneManager.close
     }
 
     void MagicAttack(Tuple<int, GameObject> objective)

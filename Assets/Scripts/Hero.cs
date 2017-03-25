@@ -26,12 +26,16 @@ public class Hero : MonoBehaviour {
     public float furyRate = 30;
     public float furyChance = 0.2f;
 
+    public float blockingRate = 20;
+
     public float stun = 0;
 
     public GameObject villain;
 
     [SerializeField] private float timeToAttack = 0;
     [SerializeField] private float timeToFury = 0;
+    [SerializeField]
+    private float timeToBlocking = 0;
 
     private Animator anim;
     private GameSceneManager gameSceneManager;
@@ -63,6 +67,13 @@ public class Hero : MonoBehaviour {
                 } else {
                     // Si no estamos stuneados
 
+                    if (timeToBlocking > blockingRate) {
+                        Blocks();
+                        timeToBlocking = 0;
+                    } else {
+                        timeToBlocking += Time.deltaTime;
+                    }
+                    
                     // Sólo ocurre si el nivel es 3 o mas
                     if (GameManager.Instance.Level >= 3) {
                         if (timeToFury > furyRate) {
@@ -109,11 +120,13 @@ public class Hero : MonoBehaviour {
 
     IEnumerator DelayandAttack(float seconds, int index, GameObject objective) {
         
-        bool flipX = GetComponent<SpriteRenderer>().flipX;
+        bool flipX = transform.GetChild(0).GetComponent<SpriteRenderer>().flipX;
         bool cond_changeFlip = index == 0;
         if (flipX != cond_changeFlip) {
             // No coinciden las orientaciones. Debe girar: tiempo de espera
-            GetComponent<SpriteRenderer>().flipX = cond_changeFlip;
+            foreach (Transform child in transform) {
+                child.gameObject.GetComponent<SpriteRenderer>().flipX = cond_changeFlip;
+            }
             yield return new WaitForSeconds(seconds);
         }
         if (index == 0) {
@@ -133,6 +146,11 @@ public class Hero : MonoBehaviour {
         } else {
             fury = RandomUtil.Chance(furyChance);
         }
+    }
+
+    void Blocks() {
+        int index = gameSceneManager.RandomAvailableLane();
+        anim.SetTrigger("blocks");
     }
 
     void MagicAttack(Tuple<int, GameObject> objective)

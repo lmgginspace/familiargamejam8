@@ -18,10 +18,10 @@ public class PlayerController : MonoBehaviour {
          
         
 
-        switch ()
+        /*switch ()
         {
                 Input.GetKeyDown();
-        }
+        }*/
 
 
        if(Input.GetMouseButtonDown(0) )

@@ -43,9 +43,7 @@ public class Villain : MonoBehaviour {
 
         if (!gameSceneManager.gameover) {
 
-            if (health <= 0) {
-                anim.SetTrigger("death");
-            } else {
+            if (health > 0) {
 
                 if (timeToAttack > attackRate) {
                     timeToAttack = 0;
@@ -56,6 +54,10 @@ public class Villain : MonoBehaviour {
 
             }
 
+        } else {
+            if (health <= 0) {
+                anim.SetTrigger("death");
+            }
         }
     }
 

@@ -88,9 +88,7 @@ public class Hero : MonoBehaviour {
         if (!gameSceneManager.gameover)
         {
 
-            if (health <= 0) {
-                anim.SetTrigger("death");
-            } else {
+            if (health > 0) {
 
                 if (stun>0) {
                     // Stuneado
@@ -146,6 +144,10 @@ public class Hero : MonoBehaviour {
                     
                 }
 
+            }
+        } else {
+            if (health <= 0) {
+                anim.SetTrigger("death");
             }
         }
         blocking = attacking = false;          

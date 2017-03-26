@@ -18,11 +18,13 @@ public class Hero : MonoBehaviour {
     public float attack = 20;
     public float attackRate = 1;
     public float originalAttackRate = 1;
+    public bool attacking = false;
 
     public float magicAttack = 100;
     public float mana = 0;
     public float manaMax = 100;
     public float manaAcum = 10;
+    public bool magicAttacking = false;
 
     
     public bool fury = false;
@@ -32,6 +34,7 @@ public class Hero : MonoBehaviour {
 
     public float blockingRate = 20;
     public float blockingTime = 10;
+    public bool blocking = false;
 
     public float stun = 0;
 
@@ -44,6 +47,10 @@ public class Hero : MonoBehaviour {
     public Text damagePrefab;
     public float lastDamage = -1;
     public float lastDamageMagic = -1;
+
+    public AudioClip heroAttack;
+    public AudioClip heroMagic;
+
 
 
     [SerializeField] private float timeToAttack = 0;
@@ -59,6 +66,9 @@ public class Hero : MonoBehaviour {
 	#region Unity Functions
 
 	void Start () {
+        attacking = false;
+        blocking = false;
+        fury = false;
         health = healthMax;
         anim = GetComponent<Animator>();
         originalAnimationSpeed = anim.speed;
@@ -84,17 +94,14 @@ public class Hero : MonoBehaviour {
                 } else {
                     // Si no estamos stuneados
 
-
                     if (timeToBlocking > blockingRate) {
-                        Blocks();
+                        blocking = true;
                         timeToBlocking = 0;
                         timeToFury = 0;
                         timeToAttack = 0;
                     } else {
                         timeToBlocking += Time.deltaTime;
-
                         // no bloquea
-
                         // Sólo ocurre si el nivel es 3 o mas
                         if (GameManager.Instance.Level >= 1 && timeToFury > furyRate) {
                             Fury();
@@ -109,42 +116,45 @@ public class Hero : MonoBehaviour {
 
                             if (timeToAttack > attackRate) {
                                 timeToAttack = 0;
-                                if (mana >= manaMax) {
-                                    MagicAttack(gameSceneManager.ChooseObjective(GameSceneManager.MAGIC_ATTACK));
-                                    mana = 0;
-                                    lastDamage = magicAttack;
-                                    timeToAttack = 0;
-                                } else {
-                                    Attack(gameSceneManager.ChooseObjective(GameSceneManager.NORMAL_ATTACK));
-                                    lastDamage = attack;
-                                }
+                                attacking = true;
                             } else {
                                 timeToAttack += Time.deltaTime;
                             }
-
                         }
+                    }
 
+                    if (blocking) {
+                        Blocks();
+                    }
+
+                    if (attacking) {
+                        if (mana >= manaMax) {
+                            MagicAttack(gameSceneManager.ChooseObjective(GameSceneManager.MAGIC_ATTACK));
+                            mana = 0;
+                            lastDamage = magicAttack;
+                            timeToAttack = 0;
+                        } else {
+                            Attack(gameSceneManager.ChooseObjective(GameSceneManager.NORMAL_ATTACK));
+                            lastDamage = attack;
+                        }
                     }
                     
                 }
 
             }
-        }            
+        }
+        blocking = attacking = false;          
             
     }
     void Attack(Tuple<int, GameObject> objective)
     {
         StartCoroutine(DelayandAttack(attackRate / 4, objective.Item1, objective.Item2));
-        
-        
     }
 
     IEnumerator DelayandAttack(float seconds, int index, GameObject objective) {
 
         bool flipX = transform.localScale.x > 0;
         bool objective_orient = index == 0;
-        Debug.Log("Orientación flip: " + flipX.ToString());
-        Debug.Log("Cod: " + objective_orient.ToString());
         if (flipX != objective_orient) {
             // No coinciden las orientaciones. Debe girar: tiempo de espera
             transform.localScale = new Vector3(transform.localScale.x * -1f, transform.localScale.y);
@@ -167,6 +177,7 @@ public class Hero : MonoBehaviour {
             Text d = Instantiate(damagePrefab) as Text;
             d.transform.SetParent(canvas.transform, false);
             d.text = lastDamage.ToString();
+            AudioManager.Instance.PlaySoundEffect(heroAttack);
             StartCoroutine(gameSceneManager.destroyDamage(d));
         }
     }
@@ -177,6 +188,7 @@ public class Hero : MonoBehaviour {
             Text d = Instantiate(damagePrefab) as Text;
             d.transform.SetParent(canvas.transform, false);
             d.text = lastDamageMagic.ToString();
+            AudioManager.Instance.PlaySoundEffect(heroMagic);
             StartCoroutine(gameSceneManager.destroyDamage(d));
         }
     }

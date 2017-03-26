@@ -442,7 +442,7 @@ Prefab:
     - target: {fileID: 114575494060827416, guid: e7d33ab34eaa42148b78e36283342ec9,
         type: 2}
       propertyPath: furyRate
-      value: 5
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 212371496713651490, guid: e7d33ab34eaa42148b78e36283342ec9,
         type: 2}
@@ -583,6 +583,21 @@ Prefab:
         type: 2}
       propertyPath: m_Color.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114575494060827416, guid: e7d33ab34eaa42148b78e36283342ec9,
+        type: 2}
+      propertyPath: heroAttack
+      value: 
+      objectReference: {fileID: 8300000, guid: 1005367d3f466f840b7f37b5eed3c928, type: 3}
+    - target: {fileID: 114575494060827416, guid: e7d33ab34eaa42148b78e36283342ec9,
+        type: 2}
+      propertyPath: heroMagic
+      value: 
+      objectReference: {fileID: 8300000, guid: a92ba3ad106f5764ebfac41a5c66402a, type: 3}
+    - target: {fileID: 114575494060827416, guid: e7d33ab34eaa42148b78e36283342ec9,
+        type: 2}
+      propertyPath: fury
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e7d33ab34eaa42148b78e36283342ec9, type: 2}
@@ -608,6 +623,7 @@ MonoBehaviour:
   attack: 10
   attackRate: 1
   hero: {fileID: 2093615121}
+  attackSound: {fileID: 8300000, guid: f70c9e01686672a49a7e8f12fcabb187, type: 3}
 --- !u!1 &711977366
 GameObject:
   m_ObjectHideFlags: 0
@@ -3764,6 +3780,7 @@ MonoBehaviour:
   usable: 1
   minionS: {fileID: 1604565741682404, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
   cooldown: 5
+  cardColor: 0
   position: 
 --- !u!4 &1331552958
 Transform:
@@ -3809,6 +3826,7 @@ MonoBehaviour:
   usable: 1
   minionS: {fileID: 1604565741682404, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
   cooldown: 5
+  cardColor: 2
   position: 
 --- !u!4 &1382628929
 Transform:
@@ -3976,6 +3994,7 @@ MonoBehaviour:
   usable: 1
   minionS: {fileID: 1604565741682404, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
   cooldown: 5
+  cardColor: 0
   position: 
 --- !u!4 &1423877856
 Transform:
@@ -4157,6 +4176,7 @@ MonoBehaviour:
   usable: 1
   minionS: {fileID: 1604565741682404, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
   cooldown: 5
+  cardColor: 1
   position: 
 --- !u!4 &1904486039
 Transform:
@@ -4408,6 +4428,7 @@ MonoBehaviour:
   usable: 1
   minionS: {fileID: 1604565741682404, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
   cooldown: 5
+  cardColor: 2
   position: 
 --- !u!4 &2125115093
 Transform:

@@ -22,6 +22,7 @@ public class Villain : MonoBehaviour {
     private Animator anim;
     private GameSceneManager gameSceneManager;
 
+    public AudioClip attackSound;
 
     #region Unity Functions
 
@@ -56,7 +57,12 @@ public class Villain : MonoBehaviour {
     void Attack(GameObject objective)
     {
         objective.GetComponent<Hero>().health -= attack;
+        
         anim.SetTrigger("attack");
+    }
+
+    void Sound() {
+        AudioManager.Instance.PlaySoundEffect(attackSound);
     }
 
     GameObject MyObjective()

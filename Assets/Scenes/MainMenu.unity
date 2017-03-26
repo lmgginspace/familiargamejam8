@@ -761,8 +761,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 216421330}
-        m_MethodName: StartGame
+      - m_Target: {fileID: 11456784, guid: 672da2b391db00d48b781dfd9c0acdda, type: 2}
+        m_MethodName: startFirstLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4569,7 +4569,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1621988217}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.5390625
+  m_Size: 0.53906256
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

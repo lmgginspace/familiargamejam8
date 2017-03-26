@@ -57,6 +57,11 @@ public sealed class GameManager : Singleton<GameManager>
         }
     }
 
+    public void startFirstLevel() {
+        level = 1;
+        LoadScene("GameScene");
+    }
+
     public int nextLevel() {
         return level + 1;
     }

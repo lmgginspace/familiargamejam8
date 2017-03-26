@@ -5,7 +5,7 @@ AnimationClip:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Cast
+  m_Name: Magic
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -1973,14 +1973,14 @@ AnimationClip:
   m_IsEmpty: 0
   m_Events:
   - time: 0.41666666
-    functionName: ParticlesAttack
+    functionName: ParticlesMagic
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.43333334
-    functionName: Damage
+    functionName: DamageMagic
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

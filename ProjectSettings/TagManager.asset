@@ -10,6 +10,7 @@ TagManager:
   - Top
   - Mid
   - Bot
+  - Canvas
   layers:
   - Default
   - TransparentFX

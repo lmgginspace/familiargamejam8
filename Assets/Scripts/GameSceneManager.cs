@@ -5,6 +5,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Extensions.Tuple;
 using Extensions.System.Colections;
 using Extensions.UnityEngine;
@@ -42,7 +44,13 @@ public class GameSceneManager : MonoBehaviour {
             if (hero.GetComponent<Hero>().health <= 0 || villain.GetComponent<Villain>().health <= 0)
             {
                 gameover = true;
-                Debug.Log("GAME OVER");
+                if (hero.GetComponent<Hero>().health <= 0) {
+                    //Pierde
+                    SceneManager.LoadScene("LoseScene");
+                } else {
+                    //Gana
+                    SceneManager.LoadScene("WinScene");
+                }
             } else {
 
                 // Times Blocks
@@ -165,6 +173,11 @@ public class GameSceneManager : MonoBehaviour {
         if (index == 3) {
             time_to_open_down += time;
         }
+    }
+
+    public IEnumerator destroyDamage(Text t) {
+        yield return new WaitForSeconds(0.5f);
+        Destroy(t.gameObject);
     }
 
 	#endregion

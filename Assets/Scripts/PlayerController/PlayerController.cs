@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+        gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
 	}
 	
 	// Update is called once per frame
@@ -77,14 +77,13 @@ public class PlayerController : MonoBehaviour {
                 break;
         }
 
-        foreach (var i in gameSceneManager.CurrentMinions())
+        foreach (var i in gameSceneManager.AvailableLanes())
         {
-            if (i.Item1 == tempPos)
+            if (i == tempPos)
             {
-                if (i.Item2!=null)
-                {
+                
                     tempSpawn = true;
-                }
+                
             }
         }
 

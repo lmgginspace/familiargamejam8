@@ -203,4 +203,16 @@ public sealed class GameManager : Singleton<GameManager>
         PlayerPrefs.SetString("Language", GameManager.Instance.gameLanguage);
     }
 
+    private IEnumerator delayAction(float time,Action action)
+    {
+        yield return new WaitForSeconds(time);
+
+        action();
+    }
+
+    public void delayMethod(float time,Action action)
+    {
+        this.StartCoroutine(this.delayAction(time,action));
+    }
+
 }

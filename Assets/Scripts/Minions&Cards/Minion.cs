@@ -59,6 +59,9 @@ public class Minion : MonoBehaviour {
     [HideInInspector]
     public GameObject heroSht;
 
+    [HideInInspector]
+    private bool dieCheck = false;
+
     // Use this for initialization
     void Start()
     {
@@ -103,7 +106,7 @@ public class Minion : MonoBehaviour {
             if (KindDisrepair.Stun == kindDisrepairValue)
             {
                 disrepairHero(disrepairValue, kindDisrepairValue);
-                Destroy(this.gameObject, 2f);
+                GameManager.Instance.delayMethod(2f, die);
             }
             else
             {
@@ -115,7 +118,7 @@ public class Minion : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (health<=0.0f)
+        if (health<=0.0f && !dieCheck)
         {
             die();
         }
@@ -181,6 +184,8 @@ public class Minion : MonoBehaviour {
 
     public void die()
     {
+        dieCheck = true;
+
         if (position=="top") {
             gameSceneManager.minion_up = null;
         }
@@ -194,7 +199,7 @@ public class Minion : MonoBehaviour {
 		this.GetComponent<Animator> ().SetBool ("Dead", true);
 
         replaceStatHero(disrepairValue,kindDisrepairValue);
-        Destroy(this.gameObject, 1.25f);
+        Destroy(this.gameObject, 1.80f);
     }
 
 }

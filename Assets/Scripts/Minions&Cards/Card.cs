@@ -53,8 +53,6 @@ public class Card : MonoBehaviour {
             usable = false;
             tempMinion = Instantiate(minionS, spawnPoint.transform.position, spawnPoint.transform.rotation);
             tempMinion.GetComponent<Minion>().position = pos;
-            tempMinion.GetComponent<Minion>().critic = (pos == "top" && cardColor == ColorType.RED) 
-                || (pos == "mid" && cardColor == ColorType.BLUE) || (pos == "bot" && cardColor == ColorType.GREEN);
         }
         
     }

@@ -10,9 +10,6 @@ public class Minion : MonoBehaviour {
 
     public float health;
 
-    public bool critic;
-    public float criticVal = 0.5f;
-
     #region enumValues
     public KindMinion kindMinionValue;
 
@@ -49,9 +46,12 @@ public class Minion : MonoBehaviour {
 
     public GameObject throwDisrepairObject;
 
-    public Transform SpawnDisrepairObject;
+    public List<Sprite> spriteDisrepairObject;
 
     private GameSceneManager gameSceneManager;
+
+    [HideInInspector]
+    public SpriteRenderer spriteRenderDisrepair;
 
     [HideInInspector]
     public string position;
@@ -64,6 +64,23 @@ public class Minion : MonoBehaviour {
     {
         gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
         heroSht = GameObject.FindGameObjectWithTag("Hero").gameObject;
+        spriteRenderDisrepair = throwDisrepairObject.GetComponent<SpriteRenderer>();
+
+        switch (kindDisrepairValue)
+        {
+            case KindDisrepair.Mana:
+                spriteRenderDisrepair.sprite = spriteDisrepairObject[0];
+                break;
+            case KindDisrepair.DPS:
+            spriteRenderDisrepair.sprite = spriteDisrepairObject[1];
+                break;
+            case KindDisrepair.Damage:
+                spriteRenderDisrepair.sprite = spriteDisrepairObject[2];
+                break;
+            case KindDisrepair.Stun:
+                spriteRenderDisrepair.sprite = spriteDisrepairObject[3];
+                break;
+        }
 
         switch (position)
         {
@@ -80,8 +97,6 @@ public class Minion : MonoBehaviour {
                 gameSceneManager.minion_down = gameObject;
                 break;
         }
-        if (critic)
-            disrepairValue += disrepairValue * criticVal;
 
         if (kindMinionValue != KindMinion.Decoy)
         {
@@ -94,10 +109,7 @@ public class Minion : MonoBehaviour {
             {
                 disrepairHero(disrepairValue, kindDisrepairValue);
             }
-
         }
-
-        Debug.Log(critic);
     }
 	
 	// Update is called once per frame

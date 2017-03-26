@@ -8,8 +8,10 @@ public class PlayerController : MonoBehaviour {
 
     public Card cardSelected;
 
-	// Use this for initialization
-	void Start () {
+    private GameSceneManager gameSceneManager;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -58,10 +60,41 @@ public class PlayerController : MonoBehaviour {
     {
         string posName = pos.name;
 
-        if (cardSelected)
-        {
-            cardSelected.spawnMinion(pos,posName);
+        int tempPos=0;
 
+        bool tempSpawn = false;
+
+        switch (posName)
+        {
+            case "top":
+                tempPos = 1;
+                break;
+            case "mid":
+                tempPos = 2;
+                break;
+            case "bot":
+                tempPos = 3;
+                break;
+        }
+
+        foreach (var i in gameSceneManager.CurrentMinions())
+        {
+            if (i.Item1 == tempPos)
+            {
+                if (i.Item2!=null)
+                {
+                    tempSpawn = true;
+                }
+            }
+        }
+
+        if (tempSpawn)
+        {
+            if (cardSelected)
+            {
+                cardSelected.spawnMinion(pos, posName);
+
+            }
         }
     }
 

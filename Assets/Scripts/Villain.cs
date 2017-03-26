@@ -23,6 +23,7 @@ public class Villain : MonoBehaviour {
     private GameSceneManager gameSceneManager;
 
     public AudioClip attackSound;
+    public AudioClip dieSound;
 
     #region Unity Functions
 
@@ -63,6 +64,10 @@ public class Villain : MonoBehaviour {
 
     void Sound() {
         AudioManager.Instance.PlaySoundEffect(attackSound);
+    }
+
+    void SoundDie() {
+        AudioManager.Instance.PlaySoundEffect(dieSound);
     }
 
     GameObject MyObjective()

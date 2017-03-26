@@ -37,6 +37,11 @@ public class GameSceneManager : MonoBehaviour {
         time_to_open_up = time_to_open_middle = time_to_open_down = 0;
         furies = 0;
 	}
+
+    IEnumerator ChangeScene(string scene) {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(scene);
+    }
 	
 	void Update () {
 		if (!gameover)
@@ -46,10 +51,10 @@ public class GameSceneManager : MonoBehaviour {
                 gameover = true;
                 if (hero.GetComponent<Hero>().health <= 0) {
                     //Pierde
-                    SceneManager.LoadScene("LoseScene");
+                    StartCoroutine(ChangeScene("LoseScene"));
                 } else {
                     //Gana
-                    SceneManager.LoadScene("WinScene");
+                    StartCoroutine(ChangeScene("WinScene"));
                 }
             } else {
 

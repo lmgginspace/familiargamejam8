@@ -624,6 +624,7 @@ MonoBehaviour:
   attackRate: 1
   hero: {fileID: 2093615121}
   attackSound: {fileID: 8300000, guid: f70c9e01686672a49a7e8f12fcabb187, type: 3}
+  dieSound: {fileID: 8300000, guid: b345c27035ecf7e4dba1ce14d4b76f54, type: 3}
 --- !u!1 &711977366
 GameObject:
   m_ObjectHideFlags: 0

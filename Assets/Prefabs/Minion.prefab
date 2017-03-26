@@ -96,8 +96,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1604565741682404}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 1}
+  m_LocalPosition: {x: 5.47, y: 2.71, z: 0}
+  m_LocalScale: {x: 0.112323426, y: 0.112323426, z: 0.112323426}
   m_Children:
   - {fileID: 4686984354419750}
   - {fileID: 4315155387108038}
@@ -161,15 +161,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atackable: 1
   health: 10
-  critic: 0
-  criticVal: 0.5
   kindMinionValue: 0
   kindDisrepairValue: 0
   disrepairTop: 1.86
   disrepairMid: 1.92
   disrepairBot: 1.59
-  throwDisrepairObject: {fileID: 0}
-  SpawnDisrepairObject: {fileID: 0}
+  throwDisrepairObject: {fileID: 1777651840802564}
+  spriteDisrepairObject:
+  - {fileID: 21300000, guid: 887c74f1d340bbb48865badd4848f62e, type: 3}
+  - {fileID: 21300000, guid: 29eadc05ef96fa24fa88e9b2e1fbb9ad, type: 3}
+  - {fileID: 21300000, guid: c9fafa6d9b993764d9361e8f2259d231, type: 3}
+  - {fileID: 21300000, guid: 9583892e2f17add47ac3421b65485a80, type: 3}
+  spriteRenderDisrepair: {fileID: 0}
   position: 
   heroSht: {fileID: 0}
 --- !u!212 &212201644810764642

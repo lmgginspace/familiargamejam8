@@ -380,18 +380,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 4579768239748152, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.112323426
-      objectReference: {fileID: 0}
-    - target: {fileID: 4579768239748152, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.112323426
-      objectReference: {fileID: 0}
-    - target: {fileID: 4579768239748152, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.112323426
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
   m_IsPrefabParent: 0
@@ -842,6 +830,7 @@ MonoBehaviour:
   usable: 1
   minionS: {fileID: 1604565741682404, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
   cooldown: 5
+  cardColor: 0
   position: 
 --- !u!1001 &1308014956
 Prefab:
@@ -1247,6 +1236,7 @@ MonoBehaviour:
   usable: 1
   minionS: {fileID: 1604565741682404, guid: eebc70b655a20d144963c5baf9e2d1ef, type: 2}
   cooldown: 5
+  cardColor: 0
   position: 
 --- !u!4 &1927497136
 Transform:

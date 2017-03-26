@@ -106,8 +106,7 @@ public class GameSceneManager : MonoBehaviour {
             }
             else if (attackMode==MAGIC_ATTACK)
             {
-                List<Tuple<int, GameObject>> decoys = DecoyMinions();
-                r = decoys.RandomItem<Tuple<int, GameObject>>();
+                
             }
         }
         return r;

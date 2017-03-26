@@ -160,12 +160,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atackable: 1
-  health: 10
+  health: 20
   kindMinionValue: 1
   kindDisrepairValue: 3
-  disrepairTop: 1.86
-  disrepairMid: 1.92
-  disrepairBot: 1.59
+  disrepairTop: 0.25
+  disrepairMid: 0.5
+  disrepairBot: 0.5
   throwDisrepairObject: {fileID: 1085358256697634}
   spriteDisrepairObject:
   - {fileID: 21300000, guid: 887c74f1d340bbb48865badd4848f62e, type: 3}

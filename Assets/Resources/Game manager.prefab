@@ -40,6 +40,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b75642efb322264aae84a64a935ba39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BGMusic: {fileID: 8300000, guid: 441f080cd341777498ffc9494daf99e5, type: 3}
+  MenuMusic: {fileID: 8300000, guid: ae13652f086948340942053d5750f6c9, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

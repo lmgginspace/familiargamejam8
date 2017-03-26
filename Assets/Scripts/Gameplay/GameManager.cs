@@ -8,6 +8,10 @@ using UnityEngine.UI;
 [Prefab("Game manager", true)]
 public sealed class GameManager : Singleton<GameManager>
 {
+
+    public AudioClip BGMusic;
+
+    public AudioClip MenuMusic;
     // ---- ---- ---- ---- ---- ---- ---- ----
     // Atributos
     // ---- ---- ---- ---- ---- ---- ---- ----
@@ -58,6 +62,8 @@ public sealed class GameManager : Singleton<GameManager>
     }
 
     public void startFirstLevel() {
+
+        AudioManager.Instance.PlayMusic(BGMusic);
         level = 1;
         LoadScene("GameScene");
     }
@@ -151,6 +157,10 @@ public sealed class GameManager : Singleton<GameManager>
         if (scene.Equals("reset")) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         } else {
+            if (scene == "MainMenu")
+            {
+                AudioManager.Instance.PlayMusic(MenuMusic);
+            }
             SceneManager.LoadScene(scene);
         }
         

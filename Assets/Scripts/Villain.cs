@@ -55,7 +55,7 @@ public class Villain : MonoBehaviour {
 
     void Attack(GameObject objective)
     {
-        objective.GetComponent<Hero>().health -= 100;
+        objective.GetComponent<Hero>().health -= attack;
         anim.SetTrigger("attack");
     }
 

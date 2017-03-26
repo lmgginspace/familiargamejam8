@@ -4,6 +4,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using Extensions.Tuple;
 using Extensions.UnityEngine;
@@ -16,13 +17,16 @@ public class Hero : MonoBehaviour {
     public float health;
     public float attack = 20;
     public float attackRate = 1;
+    public float originalAttackRate = 1;
 
     public float magicAttack = 100;
     public float mana = 0;
     public float manaMax = 100;
     public float manaAcum = 10;
 
+    
     public bool fury = false;
+    public float furyValue = 0.5f;
     public float furyRate = 30;
     public float furyChance = 0.2f;
 
@@ -33,6 +37,15 @@ public class Hero : MonoBehaviour {
 
     public GameObject villain;
 
+    public SpriteRenderer[] part_bodies;
+    public ParticleSystem spell;
+    public ParticleSystem spell2;
+
+    public Text damagePrefab;
+    public float lastDamage = -1;
+    public float lastDamageMagic = -1;
+
+
     [SerializeField] private float timeToAttack = 0;
     [SerializeField] private float timeToFury = 0;
     [SerializeField]
@@ -41,11 +54,14 @@ public class Hero : MonoBehaviour {
     private Animator anim;
     private GameSceneManager gameSceneManager;
 
+    private float originalAnimationSpeed;
+
 	#region Unity Functions
 
 	void Start () {
         health = healthMax;
         anim = GetComponent<Animator>();
+        originalAnimationSpeed = anim.speed;
         gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
 	}
 	
@@ -72,22 +88,21 @@ public class Hero : MonoBehaviour {
                     if (timeToBlocking > blockingRate) {
                         Blocks();
                         timeToBlocking = 0;
+                        timeToFury = 0;
+                        timeToAttack = 0;
                     } else {
                         timeToBlocking += Time.deltaTime;
 
                         // no bloquea
 
                         // Sólo ocurre si el nivel es 3 o mas
-                        if (GameManager.Instance.Level >= 3 && timeToFury > furyRate) {
+                        if (GameManager.Instance.Level >= 1 && timeToFury > furyRate) {
                             Fury();
-                            if (!fury) {
-                                timeToFury -= 1;
-                                Debug.Log("Tiempo alargado");
-                            } else {
+                            if (fury) {
                                 gameSceneManager.furies++;
                                 timeToFury = 0;
+                                timeToAttack = 0;
                             }
-                            Debug.Log("FURY: " + fury.ToString());
                         } else {
                             timeToFury += Time.deltaTime;
                             // no furia
@@ -97,8 +112,11 @@ public class Hero : MonoBehaviour {
                                 if (mana >= manaMax) {
                                     MagicAttack(gameSceneManager.ChooseObjective(GameSceneManager.MAGIC_ATTACK));
                                     mana = 0;
+                                    lastDamage = magicAttack;
+                                    timeToAttack = 0;
                                 } else {
                                     Attack(gameSceneManager.ChooseObjective(GameSceneManager.NORMAL_ATTACK));
+                                    lastDamage = attack;
                                 }
                             } else {
                                 timeToAttack += Time.deltaTime;
@@ -122,19 +140,20 @@ public class Hero : MonoBehaviour {
     }
 
     IEnumerator DelayandAttack(float seconds, int index, GameObject objective) {
-        
-        bool flipX = transform.GetChild(0).GetComponent<SpriteRenderer>().flipX;
-        bool cond_changeFlip = index > 0;
-        if (flipX != cond_changeFlip) {
+
+        bool flipX = transform.localScale.x > 0;
+        bool objective_orient = index == 0;
+        Debug.Log("Orientación flip: " + flipX.ToString());
+        Debug.Log("Cod: " + objective_orient.ToString());
+        if (flipX != objective_orient) {
             // No coinciden las orientaciones. Debe girar: tiempo de espera
-            foreach (Transform child in transform) {
-                child.gameObject.GetComponent<SpriteRenderer>().flipX = cond_changeFlip;
-            }
+            transform.localScale = new Vector3(transform.localScale.x * -1f, transform.localScale.y);
             yield return new WaitForSeconds(seconds);
         }
         if (index == 0) {
             objective.GetComponent<Villain>().health -= attack;
             mana = Mathf.Min(mana + manaAcum, manaMax);
+            lastDamage = attack;   
         } else {
             objective.GetComponent<Minion>().health -= attack;
         }
@@ -142,12 +161,42 @@ public class Hero : MonoBehaviour {
         
     }
 
+    void Damage() {
+        if (lastDamage >= 0) {
+            GameObject canvas = GameObject.FindGameObjectWithTag("Canvas");
+            Text d = Instantiate(damagePrefab) as Text;
+            d.transform.SetParent(canvas.transform, false);
+            d.text = lastDamage.ToString();
+            StartCoroutine(gameSceneManager.destroyDamage(d));
+        }
+    }
+
+    void DamageMagic() {
+        if (lastDamageMagic >= 0) {
+            GameObject canvas = GameObject.FindGameObjectWithTag("Canvas");
+            Text d = Instantiate(damagePrefab) as Text;
+            d.transform.SetParent(canvas.transform, false);
+            d.text = lastDamageMagic.ToString();
+            StartCoroutine(gameSceneManager.destroyDamage(d));
+        }
+    }
+
     void Fury() {
         if (fury) {
             fury = false;
+            attackRate = originalAttackRate;
+            anim.speed = originalAnimationSpeed;
             timeToFury = 0;
+            foreach (SpriteRenderer s in part_bodies) {
+                s.color = Color.white;
+            }
         } else {
-            fury = RandomUtil.Chance(furyChance);
+            fury = true;
+            foreach (SpriteRenderer s in part_bodies) {
+                s.color = new Color(50, 0, 0);
+            }
+            attackRate = attackRate - attackRate * furyValue;
+            anim.speed = anim.speed + anim.speed * furyValue;
         }
     }
 
@@ -157,10 +206,20 @@ public class Hero : MonoBehaviour {
         gameSceneManager.closeLane(index, blockingTime);
     }
 
+    void ParticlesAttack() {
+        spell.Play();
+    }
+
+    void ParticlesMagic() {
+        spell2.Play();
+    }
+
     void MagicAttack(Tuple<int, GameObject> objective)
     {
+        lastDamageMagic = magicAttack;
+        Debug.Log(lastDamage);
         objective.Item2.GetComponent<Villain>().health -= magicAttack;
-        anim.SetTrigger("magic" + objective.Item1);
+        anim.SetTrigger("magic");
     }
 
     #endregion

@@ -190,8 +190,11 @@ public class Minion : MonoBehaviour {
         if (position == "bot") {
             gameSceneManager.minion_down = null;
         }
+
+		this.GetComponent<Animator> ().SetBool ("Dead", true);
+
         replaceStatHero(disrepairValue,kindDisrepairValue);
-        Destroy(this.gameObject);
+        Destroy(this.gameObject, 1.25f);
     }
 
 }

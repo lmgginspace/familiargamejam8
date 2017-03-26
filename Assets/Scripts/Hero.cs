@@ -106,7 +106,7 @@ public class Hero : MonoBehaviour {
                         timeToBlocking += Time.deltaTime;
                         // no bloquea
                         // Sólo ocurre si el nivel es 3 o mas
-                        if (GameManager.Instance.Level >= 2 && timeToFury > furyRate) {
+                        if (GameManager.Instance.Level >= 3 && timeToFury > furyRate) {
                             Fury();
                             if (fury) {
                                 gameSceneManager.furies++;

@@ -15,15 +15,6 @@ public class Card : MonoBehaviour {
 
     private float timeCooldown;
 
-    public ColorType cardColor;
-    
-
-    public enum ColorType {
-        RED,
-        BLUE,
-        GREEN
-    };
-
     [HideInInspector]
     public string position;
 

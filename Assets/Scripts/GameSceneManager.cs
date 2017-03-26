@@ -54,7 +54,7 @@ public class GameSceneManager : MonoBehaviour {
                     StartCoroutine(ChangeScene("LoseScene"));
                 } else {
                     //Gana
-                    StartCoroutine(ChangeScene("WinScene"));
+                    StartCoroutine(ChangeLevel(GameManager.Instance.nextLevel()));
                 }
             } else {
 
@@ -183,6 +183,16 @@ public class GameSceneManager : MonoBehaviour {
     public IEnumerator destroyDamage(Text t) {
         yield return new WaitForSeconds(0.5f);
         Destroy(t.gameObject);
+    }
+
+    public IEnumerator ChangeLevel(int nextLevel) {
+        yield return new WaitForSeconds(3);
+        if (nextLevel == 4) {
+            SceneManager.LoadScene("WinScene");
+        } else {
+            GameManager.Instance.Level++;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
 	#endregion

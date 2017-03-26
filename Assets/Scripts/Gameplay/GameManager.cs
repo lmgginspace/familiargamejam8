@@ -57,7 +57,44 @@ public sealed class GameManager : Singleton<GameManager>
         }
     }
 
+    public int nextLevel() {
+        return level + 1;
+    }
 
+    public Dictionary<string, float> getMapForLevel(int level) {
+        Dictionary<string, float> r = new Dictionary<string, float>();
+        switch (level) {
+            case 1:
+                r.Add("villain_health", 600);
+                r.Add("villain_attack", 10);
+                r.Add("hero_health", 600);
+                r.Add("hero_attack", 10);
+                r.Add("hero_magic", 30);
+                break;
+            case 2:
+                r.Add("villain_health", 600);
+                r.Add("villain_attack", 10);
+                r.Add("hero_health", 600);
+                r.Add("hero_attack", 15);
+                r.Add("hero_magic", 30);
+                break;
+            case 3:
+                r.Add("villain_health", 600);
+                r.Add("villain_attack", 10);
+                r.Add("hero_health", 600);
+                r.Add("hero_attack", 20);
+                r.Add("hero_magic", 30);
+                break;
+            default:
+                r.Add("villain_health", 600);
+                r.Add("villain_attack", 10);
+                r.Add("hero_health", 600);
+                r.Add("hero_attack", 20);
+                r.Add("hero_magic", 30);
+                break;
+        }
+        return r;
+    }
 
     // Variables volátiles
     public int CurrentPoints

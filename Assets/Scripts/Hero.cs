@@ -60,19 +60,24 @@ public class Hero : MonoBehaviour {
 
     private Animator anim;
     private GameSceneManager gameSceneManager;
+    private Dictionary<string, float> map;
 
     private float originalAnimationSpeed;
 
 	#region Unity Functions
 
 	void Start () {
+        gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
+        map = GameManager.Instance.getMapForLevel(GameManager.Instance.Level);
+        healthMax = map["hero_health"];
+        attack = map["hero_attack"];
+        magicAttack = map["hero_magic"];
         attacking = false;
         blocking = false;
         fury = false;
         health = healthMax;
         anim = GetComponent<Animator>();
         originalAnimationSpeed = anim.speed;
-        gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
 	}
 	
 	/// <summary>
@@ -103,7 +108,7 @@ public class Hero : MonoBehaviour {
                         timeToBlocking += Time.deltaTime;
                         // no bloquea
                         // Sólo ocurre si el nivel es 3 o mas
-                        if (GameManager.Instance.Level >= 1 && timeToFury > furyRate) {
+                        if (GameManager.Instance.Level >= 2 && timeToFury > furyRate) {
                             Fury();
                             if (fury) {
                                 gameSceneManager.furies++;

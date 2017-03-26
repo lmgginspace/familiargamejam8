@@ -21,6 +21,7 @@ public class Villain : MonoBehaviour {
 
     private Animator anim;
     private GameSceneManager gameSceneManager;
+    private Dictionary<string, float> map;
 
     public AudioClip attackSound;
     public AudioClip dieSound;
@@ -28,9 +29,13 @@ public class Villain : MonoBehaviour {
     #region Unity Functions
 
     void Start () {
+        gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
+        map = GameManager.Instance.getMapForLevel(GameManager.Instance.Level);
+        healthMax = map["villain_health"];
+        attack = map["villain_attack"];
         health = healthMax;
         anim = GetComponent<Animator>();
-        gameSceneManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSceneManager>();
+        
     }
 
     void Update() {
